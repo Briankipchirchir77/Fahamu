@@ -6,6 +6,15 @@ name = "pypi"
 [packages]
 rich = "*"
 requests = "*"
+pdfplumber = "*"
+tabulate = "*"
+colorama = "*"
+python-dotenv = "*"
+schedule = "*"
+click = "*"
+flask = "*"
+sqlalchemy = "*"
+pandas = "*"
 
 [dev-packages]
 pytest = "*"

@@ -1,3 +1,6 @@
+# Update represents a real-world alert like a power outage or road closure
+# CATEGORIES is a class variable - acts like a whitelist for valid categories
+
 class Update:
     CATEGORIES = ["umeme", "maji", "mafuta", "serikali", "barabara", "hali_ya_hewa"]
     all_updates = []
@@ -14,6 +17,7 @@ class Update:
     def category(self):
         return self._category
 
+    # setter checks against the allowed categories list before assigning
     @category.setter
     def category(self, value):
         if value not in Update.CATEGORIES:

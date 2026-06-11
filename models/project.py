@@ -1,3 +1,5 @@
+# Project belongs to a user and holds a list of tasks
+
 class Project:
     all_projects = []
     id_counter = 1
@@ -26,6 +28,7 @@ class Project:
         self.tasks.append(task)
 
     def completed_tasks(self):
+        # list comprehension - filters tasks that are done
         return [t for t in self.tasks if t.status == "complete"]
 
     def to_dict(self):
@@ -40,6 +43,7 @@ class Project:
 
     @classmethod
     def from_dict(cls, data):
+        # import inside method to avoid circular import between project and task
         from models.task import Task
         project = cls(
             data["title"],

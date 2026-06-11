@@ -11,10 +11,18 @@ USERS_FILE = "data/users.json"
 PROJECTS_FILE = "data/projects.json"
 UPDATES_FILE = "data/updates.json"
 
+# fix for id_counter bug - reads existing JSON and finds the highest id
+# so new entries continue from where we left off instead of starting at 1
+def get_next_id(filepath):
+    data = load_from_json(filepath)
+    if not data:
+        return 1
+    return max(item["id"] for item in data) + 1
+
 def main():
     parser = argparse.ArgumentParser(
         prog="fahamu",
-        description="🇰🇪 Fahamu — Know What Matters in Kenya"
+        description="Fahamu - Know What Matters in Kenya"
     )
     subparsers = parser.add_subparsers(dest="command")
 
@@ -24,7 +32,6 @@ def main():
     p.add_argument("--email", required=True)
     p.add_argument("--county", default="Nairobi")
 
-    # list-users
     subparsers.add_parser("list-users", help="List all users")
 
     # add-project
@@ -34,7 +41,7 @@ def main():
     p.add_argument("--description", default="")
     p.add_argument("--due-date", required=True)
 
-    # list-projects
+    # list-projects - optional filter by user
     p = subparsers.add_parser("list-projects", help="List projects")
     p.add_argument("--user", default=None)
 
@@ -61,35 +68,35 @@ def main():
     p.add_argument("--description", default="")
     p.add_argument("--date", required=True)
 
-    # list-updates
+    # list-updates - can filter by county or category
     p = subparsers.add_parser("list-updates", help="View updates")
     p.add_argument("--county", default=None)
     p.add_argument("--category", default=None)
 
-    # list-deadlines
     subparsers.add_parser("list-deadlines", help="View government deadlines")
 
     args = parser.parse_args()
 
-    # ── Handlers ──
-
     if args.command == "add-user":
+        # set the counter to continue from last saved id
+        User.id_counter = get_next_id(USERS_FILE)
         user = User(args.name, args.email, args.county)
         users = load_from_json(USERS_FILE)
         users.append(user.to_dict())
         save_to_json(users, USERS_FILE)
-        print(f"✅ User '{args.name}' added!")
+        print(f"User '{args.name}' added!")
 
     elif args.command == "list-users":
         users = load_from_json(USERS_FILE)
         display_users(users)
 
     elif args.command == "add-project":
+        Project.id_counter = get_next_id(PROJECTS_FILE)
         project = Project(args.title, args.description, args.due_date, args.user)
         projects = load_from_json(PROJECTS_FILE)
         projects.append(project.to_dict())
         save_to_json(projects, PROJECTS_FILE)
-        print(f"✅ Project '{args.title}' added!")
+        print(f"Project '{args.title}' added!")
 
     elif args.command == "list-projects":
         projects = load_from_json(PROJECTS_FILE)
@@ -102,15 +109,19 @@ def main():
         found = False
         for p in projects:
             if p["title"].lower() == args.project.lower():
+                # work out next task id from all tasks across all projects
+                all_tasks = [t for proj in projects for t in proj.get("tasks", [])]
+                next_id = max((t["id"] for t in all_tasks), default=0) + 1
+                Task.id_counter = next_id
                 task = Task(args.title, args.assigned_to, args.project)
                 p["tasks"].append(task.to_dict())
                 found = True
                 break
         if found:
             save_to_json(projects, PROJECTS_FILE)
-            print(f"✅ Task '{args.title}' added to '{args.project}'!")
+            print(f"Task '{args.title}' added to '{args.project}'!")
         else:
-            print(f"❌ Project '{args.project}' not found.")
+            print(f"Project '{args.project}' not found.")
 
     elif args.command == "complete-task":
         projects = load_from_json(PROJECTS_FILE)
@@ -124,9 +135,9 @@ def main():
                         break
         if found:
             save_to_json(projects, PROJECTS_FILE)
-            print(f"✅ Task '{args.task}' marked complete!")
+            print(f"Task '{args.task}' marked complete!")
         else:
-            print(f"❌ Task '{args.task}' not found in '{args.project}'.")
+            print(f"Task '{args.task}' not found in '{args.project}'.")
 
     elif args.command == "list-tasks":
         projects = load_from_json(PROJECTS_FILE)
@@ -134,14 +145,14 @@ def main():
             if p["title"].lower() == args.project.lower():
                 display_tasks(p.get("tasks", []))
                 return
-        print(f"❌ Project '{args.project}' not found.")
+        print(f"Project '{args.project}' not found.")
 
     elif args.command == "add-update":
         update = Update(args.title, args.category, args.county, args.description, args.date)
         updates = load_from_json(UPDATES_FILE)
         updates.append(update.to_dict())
         save_to_json(updates, UPDATES_FILE)
-        print(f"✅ Update '{args.title}' added!")
+        print(f"Update '{args.title}' added!")
 
     elif args.command == "list-updates":
         updates = load_from_json(UPDATES_FILE)
@@ -153,6 +164,7 @@ def main():
 
     elif args.command == "list-deadlines":
         from datetime import date
+        # hardcoded for now - could move to deadlines.json later
         deadlines = [
             Deadline("KRA Tax Returns", date(2026, 6, 30), "File your income tax returns", "KRA"),
             Deadline("NTSA License Renewal", date(2026, 6, 14), "Renew your driving licence", "NTSA"),

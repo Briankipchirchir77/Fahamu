@@ -3,8 +3,12 @@ from models.user import User
 from models.project import Project
 from models.task import Task
 
+# tests for the three main models
+# setUp runs before each test so we start with a clean state every time
+
 class TestUser(unittest.TestCase):
     def setUp(self):
+        # clear class-level lists before each test to avoid leftover data
         User.all_users.clear()
         User.id_counter = 1
         self.user = User("Brian", "brian@email.com", "Nairobi")
@@ -14,6 +18,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(self.user.county, "Nairobi")
 
     def test_invalid_county(self):
+        # Eldoret is not in the valid list, should raise ValueError
         with self.assertRaises(ValueError):
             self.user.county = "Eldoret"
 
@@ -26,6 +31,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(d["name"], "Brian")
 
     def test_from_dict(self):
+        # serialize then deserialize - should get same data back
         d = self.user.to_dict()
         u2 = User.from_dict(d)
         self.assertEqual(u2.name, "Brian")
@@ -54,6 +60,7 @@ class TestProject(unittest.TestCase):
         task = Task("Build CLI", "Brian", "Fahamu")
         task.complete()
         self.project.add_task(task)
+        # should return only the one completed task
         self.assertEqual(len(self.project.completed_tasks()), 1)
 
     def test_to_dict(self):
@@ -68,6 +75,7 @@ class TestTask(unittest.TestCase):
         self.task = Task("Write README", "Brian", "Fahamu")
 
     def test_default_status(self):
+        # new tasks should start as pending
         self.assertEqual(self.task.status, "pending")
 
     def test_complete_task(self):
@@ -75,6 +83,7 @@ class TestTask(unittest.TestCase):
         self.assertEqual(self.task.status, "complete")
 
     def test_invalid_status(self):
+        # "done" is not one of the allowed values
         with self.assertRaises(ValueError):
             self.task.status = "done"
 

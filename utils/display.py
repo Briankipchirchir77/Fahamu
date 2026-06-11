@@ -1,10 +1,13 @@
 from rich.console import Console
 from rich.table import Table
 
+# using Rich library to print nicely formatted tables in the terminal
+# each function takes a list of dicts (from JSON) and prints a table
+
 console = Console()
 
 def display_users(users):
-    table = Table(title="👤 Registered Users")
+    table = Table(title="Registered Users")
     table.add_column("ID", style="cyan")
     table.add_column("Name", style="white")
     table.add_column("Email", style="green")
@@ -14,7 +17,7 @@ def display_users(users):
     console.print(table)
 
 def display_projects(projects):
-    table = Table(title="📁 Projects")
+    table = Table(title="Projects")
     table.add_column("ID", style="cyan")
     table.add_column("Title", style="white")
     table.add_column("Owner", style="green")
@@ -28,7 +31,7 @@ def display_projects(projects):
     console.print(table)
 
 def display_tasks(tasks):
-    table = Table(title="✅ Tasks")
+    table = Table(title="Tasks")
     table.add_column("ID", style="cyan")
     table.add_column("Title", style="white")
     table.add_column("Assigned To", style="green")
@@ -38,7 +41,7 @@ def display_tasks(tasks):
     console.print(table)
 
 def display_updates(updates):
-    table = Table(title="🇰🇪 Fahamu — Latest Updates")
+    table = Table(title="Fahamu - Latest Updates")
     table.add_column("Category", style="cyan")
     table.add_column("Title", style="white")
     table.add_column("County", style="green")
@@ -48,7 +51,8 @@ def display_updates(updates):
     console.print(table)
 
 def display_deadlines(deadlines):
-    table = Table(title="📋 Upcoming Government Deadlines")
+    # deadlines are passed as Deadline objects, not dicts, so we access attributes directly
+    table = Table(title="Upcoming Government Deadlines")
     table.add_column("Title", style="white")
     table.add_column("Days Left", style="red")
     table.add_column("Description", style="yellow")

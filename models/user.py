@@ -1,5 +1,8 @@
 from models.person import Person
 
+# User extends Person - gets name and email from parent
+# adds county, id, and saved categories on top
+
 class User(Person):
     all_users = []
     id_counter = 1
@@ -18,12 +21,14 @@ class User(Person):
 
     @county.setter
     def county(self, value):
+        # only four counties supported for now
         valid_counties = ["Nairobi", "Mombasa", "Kisumu", "Nakuru"]
         if value not in valid_counties:
             raise ValueError(f"{value} is not a valid county")
         self._county = value
 
     def add_category(self, category):
+        # dont add the same category twice
         if category not in self.saved_categories:
             self.saved_categories.append(category)
 

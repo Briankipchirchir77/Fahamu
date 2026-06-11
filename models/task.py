@@ -1,3 +1,6 @@
+# Task belongs to a project
+# status is locked to three values only - setter enforces this
+
 class Task:
     all_tasks = []
     id_counter = 1
@@ -21,11 +24,13 @@ class Task:
 
     @status.setter
     def status(self, value):
+        # reject anything thats not one of these three
         if value not in ["pending", "in_progress", "complete"]:
             raise ValueError("Status must be: pending, in_progress, or complete")
         self._status = value
 
     def complete(self):
+        # shortcut so you can just call task.complete() instead of setting status manually
         self._status = "complete"
 
     def to_dict(self):
@@ -47,8 +52,8 @@ class Task:
         )
 
     def __str__(self):
-        icon = "✅" if self._status == "complete" else "🔄" if self._status == "in_progress" else "⏳"
-        return f"{icon} [{self.id}] {self._title} | Assigned: {self.assigned_to} | {self._status}"
+        icon = "done" if self._status == "complete" else "in progress" if self._status == "in_progress" else "pending"
+        return f"[{self.id}] {self._title} | Assigned: {self.assigned_to} | {icon}"
 
     def __repr__(self):
         return f"Task(title={self._title}, status={self._status})"
