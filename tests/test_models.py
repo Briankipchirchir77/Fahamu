@@ -26,6 +26,12 @@ class TestUser(unittest.TestCase):
         self.user.add_category("umeme")
         self.assertIn("umeme", self.user.saved_categories)
 
+    def test_duplicate_category(self):
+        # adding same category twice should only store it once
+        self.user.add_category("umeme")
+        self.user.add_category("umeme")
+        self.assertEqual(len(self.user.saved_categories), 1)
+
     def test_to_dict(self):
         d = self.user.to_dict()
         self.assertEqual(d["name"], "Brian")
@@ -36,11 +42,31 @@ class TestUser(unittest.TestCase):
         u2 = User.from_dict(d)
         self.assertEqual(u2.name, "Brian")
 
+    def test_name_setter(self):
+        # name can be changed through the setter
+        self.user.name = "Alice"
+        self.assertEqual(self.user.name, "Alice")
+
+    def test_empty_name_raises(self):
+        # empty name should not be allowed
+        with self.assertRaises(ValueError):
+            self.user.name = ""
+
+    def test_user_str(self):
+        result = str(self.user)
+        self.assertIn("Brian", result)
+
+    def test_user_repr(self):
+        result = repr(self.user)
+        self.assertIn("Brian", result)
+
 
 class TestProject(unittest.TestCase):
     def setUp(self):
         Project.all_projects.clear()
         Project.id_counter = 1
+        Task.all_tasks.clear()
+        Task.id_counter = 1
         self.project = Project("Fahamu", "Kenya app", "2026-12-01", "Brian")
 
     def test_project_creation(self):
@@ -67,6 +93,20 @@ class TestProject(unittest.TestCase):
         d = self.project.to_dict()
         self.assertEqual(d["title"], "Fahamu")
 
+    def test_from_dict(self):
+        # convert to dict and back, should get same data
+        d = self.project.to_dict()
+        p2 = Project.from_dict(d)
+        self.assertEqual(p2.title, "Fahamu")
+
+    def test_project_str(self):
+        result = str(self.project)
+        self.assertIn("Fahamu", result)
+
+    def test_project_repr(self):
+        result = repr(self.project)
+        self.assertIn("Fahamu", result)
+
 
 class TestTask(unittest.TestCase):
     def setUp(self):
@@ -90,6 +130,25 @@ class TestTask(unittest.TestCase):
     def test_to_dict(self):
         d = self.task.to_dict()
         self.assertEqual(d["title"], "Write README")
+
+    def test_from_dict(self):
+        # serialize then deserialize - should get same data back
+        d = self.task.to_dict()
+        t2 = Task.from_dict(d)
+        self.assertEqual(t2.title, "Write README")
+
+    def test_task_str(self):
+        result = str(self.task)
+        self.assertIn("Write README", result)
+
+    def test_task_repr(self):
+        result = repr(self.task)
+        self.assertIn("Write README", result)
+
+    def test_in_progress_status(self):
+        # make sure in_progress is also a valid status
+        self.task.status = "in_progress"
+        self.assertEqual(self.task.status, "in_progress")
 
 
 if __name__ == "__main__":
