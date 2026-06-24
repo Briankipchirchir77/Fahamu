@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fahamu</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header>
+        <div class="header-top">
+        <div class="kenya-flag"></div>
+        <div class="brand">
+          <span class="brand-name">Fahamu</span>
+          <span class="brand-tag">Kenya Civic Intelligence Platform</span>
+        </div>
+        <div class="riddle-container">
+          <span class="riddle-label">Kitendawili cha Leo</span>
+          <span class="riddle-text" id="daily-riddle"></span>
+        </div>
+        <nav>
+          <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+          <button class="nav-btn" data-section="updates">Updates</button>
+          <button class="nav-btn" data-section="deadlines">Deadlines</button>
+          <button class="nav-btn" data-section="users">Users</button>
+        </nav>
+        </div>
+      </header>
+
+      <main>
+
+      <!-- Dashboard -->
+      <section class="section active" id="section-dashboard">
+        <div class="section-header">
+          <h1>Dashboard</h1>
+          <button class="secondary-btn" id="refresh-dashboard-updates">Refresh</button>
+        </div>
+        <div class="stat-grid" style="margin-bottom: 24px;">
+          <div class="stat-card" id="stat-users">
+            <span class="stat-num">—</span>
+            <span class="stat-label">Users</span>
+          </div>
+          <div class="stat-card" id="stat-projects">
+            <span class="stat-num">—</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="stat-card" id="stat-deadlines">
+            <span class="stat-num">—</span>
+            <span class="stat-label">Urgent Deadlines</span>
+          </div>
+        </div>
+        <div class="dashboard-meta">
+          <span class="meta-pill">Last refresh: <strong id="refresh-timestamp">just now</strong></span>
+          <span class="meta-note">Tap any refresh button to reload the latest civic intelligence.</span>
+        </div>
+        <div class="main-layout">
+          <div>
+            <div class="section-top">
+              <h1>Urgent Deadlines</h1>
+              <span class="urgent-badge" id="urgent-count">0 urgent</span>
+            </div>
+            <div class="card-list" id="dash-deadlines">Loading...</div>
+          </div>
+          <div>
+            <div class="section-top">
+              <h1>National Updates</h1>
+            </div>
+            <div class="card-list" id="dash-updates">Loading...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Updates -->
+      <section class="section" id="section-updates">
+        <div class="section-header">
+          <div>
+            <h1>Civic Updates</h1>
+            <p class="section-subtitle">Browse the latest community and policy updates.</p>
+          </div>
+          <div class="section-actions">
+            <input id="updates-search" class="filter-input" type="search" placeholder="Search updates by title, category, or county" />
+            <button class="secondary-btn" id="refresh-updates">Refresh</button>
+          </div>
+        </div>
+        <div class="card-list" id="updates-list">Loading updates...</div>
+      </section>
+
+      <!-- Deadlines -->
+      <section class="section" id="section-deadlines">
+        <div class="section-header">
+          <div>
+            <h1>Deadlines</h1>
+            <p class="section-subtitle">Track upcoming civic priorities and submission dates.</p>
+          </div>
+          <div class="section-actions">
+            <input id="deadlines-search" class="filter-input" type="search" placeholder="Search deadlines by title, source, or county" />
+            <button class="secondary-btn" id="refresh-deadlines">Refresh</button>
+          </div>
+        </div>
+        <div class="card-list" id="deadlines-list">Loading deadlines...</div>
+      </section>
+
+      <!-- Users -->
+      <section class="section" id="section-users">
+        <div class="section-header">
+          <div>
+            <h1>Users</h1>
+            <p class="section-subtitle">Review registered civic stakeholders and participants.</p>
+          </div>
+          <div class="section-actions">
+            <button class="secondary-btn" id="refresh-users">Refresh</button>
+          </div>
+        </div>
+        <div class="card-list" id="users-list">Loading users...</div>
+      </section>
+
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "title": "KRA Deadline: File 2025 Tax Returns by June 30",
+        "category": "tax",
+        "county": "National",
+        "summary": "The Kenya Revenue Authority reminds all individual taxpayers to file their income tax returns for the year ending December 2025 by June 30, 2026 via the iTax portal to avoid penalties.",
+        "source_url": "https://itax.kra.go.ke/",
+        "published_date": "2026-06-10",
+        "admin_name": "Kamau"
+    },
+    {
+        "id": 2,
+        "title": "SHA Replaces NHIF — What You Need to Know",
+        "category": "health",
+        "county": "National",
+        "summary": "The Social Health Authority (SHA) has fully replaced NHIF. All Kenyans must register on SHA to access public health services. Contributions are now income-based at 2.75% of gross salary.",
+        "source_url": "https://sha.go.ke/",
+        "published_date": "2026-06-08",
+        "admin_name": "Kamau"
+    },
+    {
+        "id": 3,
+        "title": "Nairobi County Business Permits: Online Renewal Now Available",
+        "category": "business",
+        "county": "Nairobi",
+        "summary": "Nairobi County now allows businesses to renew their annual permits entirely online via the Nairobi City County portal. Physical visits to City Hall are no longer required for renewal.",
+        "source_url": "https://nairobi.go.ke/",
+        "published_date": "2026-06-05",
+        "admin_name": "Achieng"
+    },
+    {
+        "id": 4,
+        "title": "NTSA: Digital Driving Licence Rollout Begins",
+        "category": "transport",
+        "county": "National",
+        "summary": "NTSA has begun rolling out digital driving licences accessible via the Tims portal and mobile app. Physical licences remain valid but the digital version is now legally accepted by traffic police.",
+        "source_url": "https://tims.ntsa.go.ke/",
+        "published_date": "2026-06-01",
+        "admin_name": "Kamau"
+    },
+    {
+        "id": 5,
+        "title": "Free TVET Courses Available in Kisumu and Mombasa",
+        "category": "education",
+        "county": "Kisumu",
+        "summary": "The government has announced 5,000 free Technical and Vocational Training slots in Kisumu and Mombasa counties under the Ajira Digital programme. Applications open June 15.",
+        "source_url": "https://ajiradigital.go.ke/",
+        "published_date": "2026-05-28",
+        "admin_name": "Achieng"
+    },
+    {
+        "id": 6,
+        "title": "Ardhisasa: Nairobi Land Records Now Fully Digital",
+        "category": "land",
+        "county": "Nairobi",
+        "summary": "All Nairobi land registry records are now accessible on the Ardhisasa platform. Kenyans can verify ownership, check encumbrances, and initiate title transfer online without visiting the lands office.",
+        "source_url": "https://ardhisasa.lands.go.ke/",
+        "published_date": "2026-05-20",
+        "admin_name": "Kamau"
+    }
+]
